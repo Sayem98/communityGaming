@@ -1,0 +1,266 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'tournaments/css/single-tournament.css' %}"/>
+{% endblock %}
+
+
+{% block title %}
+    <title>Gaming Community | {{ tournament.name }}</title>
+{% endblock %}
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+{% block content %}
+    <section class="single-tournament">
+        <div class="tournament-bg">
+            {% if tournament.tournament_image %}
+                <img src="{{ tournament.tournament_image.url }}" alt="PUBG Mobile"/>
+            {% else %}
+                <img src="{% static 'tournaments/images/pubg-bg.jpg' %}" alt="PUBG Mobile"/>
+            {% endif %}
+
+        </div>
+    </section>
+
+    <section class="tournament-details">
+        <h2>{{ tournament.name }}</h2>
+        <p>Tournament Host By: <span>{{ tournament.creator.get_full_name }}</span></p>
+        <div class="info-card-container">
+            <div class="info-card">
+                <i class="fas fa-lira-sign"></i>
+                <div class="info-details">
+                    <h5>{{ prize }} Taka</h5>
+                    <p>Prize Money</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-users"></i>
+
+                <div class="info-details">
+                    <h5>{{ per_team }} Players</h5>
+                    <p>Per Team</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-lira-sign"></i>
+                <div class="info-details">
+                    <h5>Entry Fee</h5>
+                    <p>{{ tournament.fee }} Tk/ Per Team</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="info-details">
+                    <h5>{{ tournament.start_date }}</h5>
+                    <p>12:00 PM</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <!-- <i class="fas fa-lock-open"></i> -->
+                <i class="fas fa-lock"></i>
+                <div class="info-details">
+                    <h5>Type</h5>
+                    {% if tournament.fee %}
+                        <p>Paid</p>
+                    {% else %}
+                        <p>Free</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-users"></i>
+                <div class="info-details">
+                    <h5>{{ registered_team }}/{{ tournament.slots }} Team</h5>
+                    <p>Already Enter</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-map-marked-alt"></i>
+                <div class="info-details">
+                    <h5>MAP Name</h5>
+                    <p>Arena</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="info-details">
+                    <h5>{{ tournament.last_reg_date }}</h5>
+                    <p>Reg. Dedline</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+
+            {% if is_creator %}
+                <a href="{% url 'update-tournament' tournament.id %}" class="edit-btn">Edit Tournament</a>
+
+            {% else %}
+                {% if already_registered %}
+                    <p style="color: greenyellow;font-size: 2vw">Already Registered</p>
+                {% else %}
+                    <a href="{% url 'join_tournament' tournament.id %}" class="join-btn">Join Tournament</a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        <div>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="tournament-credential">
+        <div class="heading-container">
+            <div class="line"></div>
+            <h2>Tournament Access</h2>
+            <div class="line"></div>
+        </div>
+        {% if tournament.matches.all %}
+            {% for match in tournament.matches.all %}
+                <p>ROOM ID: <span>{{ match.room_id }}</span></p>
+                <p>PASSWORD: <span>{{ match.room_password }}</span></p>
+
+            {% endfor %}
+        {% else %}
+            <div class="not-publish">
+                Room ID and Password not publish yet
+            </div>
+            {% if is_creator %}
+                <form action="{% url 'add-match' tournament.id %}" method="post">
+                    {% csrf_token %}
+                    {{ room_form.room_id }}
+                    {{ room_form.room_password }}
+                    <button type="submit">Add id Password</button>
+                </form>
+            {% endif %}
+
+
+        {% endif %}
+
+    </section>
+
+    <section class="tournament-description">
+        <div class="heading-container">
+            <div class="line"></div>
+            <h2>Tournament Details</h2>
+            <div class="line"></div>
+        </div>
+        <p class="paragraph">
+            {{ tournament.description }}
+        </p>
+    </section>
+
+    <section class="tournament-prize">
+        <div class="heading-container">
+            <div class="line"></div>
+            <h2>Tournament Prize</h2>
+            <div class="line"></div>
+        </div>
+        <div class="prize-container">
+            <div class="prize">
+                <p><span>1st</span> Ranking Team: <span>{{ tournament.first_prize }} Taka</span></p>
+            </div>
+            <div class="prize">
+                <p><span>2nd</span> Ranking Team: <span>{{ tournament.second_prize }} Taka</span></p>
+            </div>
+            <div class="prize">
+                <p><span>3rd</span> Ranking Team: <span>{{ tournament.third_prize }} Taka</span></p>
+            </div>
+        </div>
+        <p class="note">
+            NB: Prize amount will be sent out immediately after the tournament ends
+            with you bKash number.
+        </p>
+    </section>
+
+    <section class="tournament-teams">
+        <div class="heading-container">
+            <div class="line"></div>
+            <h2>Participate Teams</h2>
+            <div class="line"></div>
+        </div>
+        <div class="teams-list">
+            {% for team in teams %}
+                <div class="team-card">
+                    <h2>{{ team.name }}</h2>
+                    <h6>Lead By <span>{{ team.leader.get_full_name }}</span></h6>
+                    <p>Member List</p>
+                    <div class="team-members">
+                        {% if tournament.team_type == '1v1' %}
+                            <p><span>*</span> {{ team.leader.get_full_name }}</p>
+                        {% elif tournament.team_type == '2v2' %}
+                            <p><span>*</span> {{ team.player1.get_full_name }}</p>
+                            <p><span>*</span> {{ team.leader.get_full_name }}</p>
+                        {% else %}
+                            <p><span>*</span> {{ team.player1.get_full_name }}</p>
+                            <p><span>*</span> {{ team.player2.get_full_name }}</p>
+                            <p><span>*</span> {{ team.player3.get_full_name }}</p>
+                            <p><span>*</span> {{ team.leader.get_full_name }}</p>
+                        {% endif %}
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <section class="tournament-prize">
+        <div class="heading-container">
+            <div class="line"></div>
+            <h2>Winner Teams</h2>
+            <div class="line"></div>
+        </div>
+        {% if tournament.champions %}
+            <div class="prize-container">
+                <div class="prize">
+                    <p><span>1st</span> Winner Team: <span>{{ tournament.champions.first_team.name }}</span></p>
+                </div>
+                <div class="prize">
+                    <p><span>2nd</span> Winner Team: <span>{{ tournament.champions.second_team.name }}</span></p>
+                </div>
+                <div class="prize">
+                    <p><span>3rd</span> Winner Team: <span>{{ tournament.champions.third_team.name }}</span></p>
+                </div>
+            </div>
+        {% else %}
+            <div class="prize-container">
+
+                {% if is_creator %}
+                    <form action="{% url 'single-tournament' tournament.id %}" method="post"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ winner_form.first_team }}
+                        {{ winner_form.first_team.errors }}
+
+                        {{ winner_form.second_team }}
+                        {{ winner_form.second_team.errors }}
+
+                        {{ winner_form.third_team }}
+                        {{ winner_form.third_team.errors }}
+
+                        {{ winner_form.result_image }}
+
+                        <button type="submit">Add Winners</button>
+                    </form>
+                {% else %}
+                    <div class="prize">
+                        <p>Tournament is ongoing. Winners will be declared after tournament id finished.</p>
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endif %}
+
+    </section>
+{% endblock %}

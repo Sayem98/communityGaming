@@ -1,0 +1,28 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 3rem;
+
+  background-color: #08090e;
+  background-image: url('../images/footer-bg-arrows.png');
+  background-repeat: no-repeat;
+  background-position: 100% 0;
+  border-top: 1px solid #20243a;
+}
+
+.footer .social-link {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 3rem;
+  font-size: 2.6rem;
+}
+
+.footer .social-link a {
+  color: #fff;
+  transition: 0.2s ease;
+}
+
+.footer .social-link a:hover {
+  color: #1fd2f1;
+}

@@ -1,0 +1,47 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'tournaments/css/tournaments.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <title>Community gaming | Tournaments</title>
+{% endblock %}
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="tournaments-container">
+        <div class="tournaments__bg">
+            <h4>Tournaments</h4>
+        </div>
+        <div class="tournaments__filter">
+            <div class="filter-group">
+                <form action="{% url 'all-tournament' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.money_type }}
+                    {{ form.type_of_game }}
+                    {{ form.date }}
+                    <button type="submit" id="filter-tournament-button">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="tournaments">
+            <div class="card">
+
+
+                {% for tournament in tournaments %}
+                    {% include 'tournaments/tournament_card.html' %}
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

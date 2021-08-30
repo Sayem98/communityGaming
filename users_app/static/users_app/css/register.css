@@ -1,0 +1,114 @@
+.register {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url('../images/login-bg.jpg');
+  background-position: center center;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0;
+  padding-top: 9rem;
+}
+
+.register .register-card {
+  background: #131621;
+  padding: 2rem 3rem;
+  display: grid;
+  gap: 2.5rem;
+  width: 45rem;
+  border-radius: 1rem;
+}
+
+.register .register-card h4 {
+  font-size: 3.2rem;
+  font-weight: 400;
+}
+
+.register .register-form {
+  display: grid;
+  gap: 2rem;
+}
+
+.register-form .input-group {
+  display: grid;
+  gap: 5px;
+}
+
+.register-form .input-group label {
+  font-size: 1.8rem;
+  color: #1dc4e1;
+}
+
+.register-form .input-group input {
+  padding: 1rem 1.5rem;
+  border: 2px solid #313c60;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  color: #fff;
+  background-color: #191e2e;
+  font-weight: 300;
+  width: 100%;
+}
+
+.register .register-form .forgot-text {
+  color: #1dc4e1;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.register .register-form button {
+  outline: none;
+  border: none;
+  background: #0ed4f6;
+  color: #212529;
+  font-weight: 500;
+  padding: 0.7rem 2rem;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register .register-form button:hover {
+  color: #fff;
+}
+
+.register .register-text a {
+  color: #1dc4e1;
+  margin-left: 5px;
+  font-weight: 600;
+}
+
+.register .aggrement {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+}
+
+.register .aggrement input {
+  width: 20px;
+  height: 20px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.register .aggrement a {
+  color: #1dc4e1;
+  margin-left: 5px;
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 768px) {
+  .register .register-card {
+    width: 65%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .register .register-card {
+    width: 80%;
+  }
+}

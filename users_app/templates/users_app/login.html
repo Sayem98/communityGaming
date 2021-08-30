@@ -1,0 +1,51 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users_app/css/login.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <title>Gaming Community | Login</title>
+
+{% endblock %}
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'register' %}">Register</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="login">
+        <div class="login-card">
+            <h4>Sign In</h4>
+            <form class="login-form" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+                <div id="error-message">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+                <a href="/forgot-password.html" class="forgot-text"
+                >Forgot Password?</a
+                >
+                <button type="submit">Sing In</button>
+            </form>
+            <div class="register-text">
+                Don't have an account? <a href="{% url 'register' %}">Register now ></a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

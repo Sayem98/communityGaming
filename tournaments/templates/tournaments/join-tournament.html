@@ -1,0 +1,222 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'tournaments/css/join-tournament.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <title>Gaming Community | SPARTAN TOURNEY FREE FIRE CLASH SQUAD</title>
+{% endblock %}
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="join">
+        <div class="join-card">
+            {% if tournament.tournament_image %}
+                <img src="{{ tournament.tournament_image.url }}" alt="Pubg Img"/>
+            {% else %}
+                <img src="{% static 'tournaments/images/pubg-bg.jpg' %}" alt="Pubg Img"/>
+            {% endif %}
+
+            {% if tournament.team_type == '1v1' %}
+                <form class="join-form" method="post" action="{% url 'join_tournament' tournament.id %}">
+                    {% csrf_token %}
+                    <div class="info">
+
+                        <h4>{{ tournament.name }}</h4>
+                        <p>Tournament Host By: <span>{{ tournament.creator.username }}</span></p>
+                        <p>Payment Amount: <span>{{ tournament.fee }}</span></p>
+                        <p>Bkash Payment Number: <span>017xxxxxxxx</span></p>
+                        <p>Leader Name: <span>{{ request.user.get_full_name }}</span></p>
+                        {% if leader_already_registered %}
+                            <p id="error-message">leader is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="1st">Team Name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                        {{ form.name.help_text }}
+                    </div>
+
+
+                    <div class="input-group">
+                        <label for="bkash-number">Bkash Payment Number</label>
+
+                        {{ form.bkash_payment_number }}
+                        {{ form.bkash_payment_number.errors }}
+                        {{ form.bkash_payment_number.help_text }}
+                    </div>
+                    <div class="input-group">
+                        <label for="trxid">Bkash Trxid</label>
+                        {{ form.bkash_trxid }}
+                        {{ form.bkash_trxid.errors }}
+                        {{ form.bkash_trxid.help_text }}
+                    </div>
+                    {{ form.errors }}
+
+                    <button type="submit">Confirm Join</button>
+                </form>
+            {% elif tournament.team_type == '2v2' %}
+                <form class="join-form" method="post" action="{% url 'join_tournament' tournament.id %}">
+                    {% csrf_token %}
+                    <div class="info">
+
+                        <h4>{{ tournament.name }}</h4>
+                        <p>Tournament Host By: <span>{{ tournament.creator.username }}</span></p>
+                        <p>Payment Amount: <span>{{ tournament.fee }}</span></p>
+                        <p>Bkash Payment Number: <span>017xxxxxxxx</span></p>
+                        <p>Leader Name: <span>{{ request.user.get_full_name }}</span></p>
+                        {% if leader_already_registered %}
+                            <p id="error-message">leader is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="1st">Team Name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                        {{ form.name.help_text }}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="1st">1st Teammate ID</label>
+                        {{ form.player1 }}
+                        {{ form.player1.errors }}
+                        {{ form.player1.help_text }}
+                        {% if player1_already_registered %}
+                            <p id="error-message">Player is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                        {% if p1_same_id %}
+                            <p id="error-message">Player can't have same id as leader or other teammates.</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+
+
+                    <div class="input-group">
+                        <label for="bkash-number">Bkash Payment Number</label>
+
+                        {{ form.bkash_payment_number }}
+                        {{ form.bkash_payment_number.errors }}
+                        {{ form.bkash_payment_number.help_text }}
+                    </div>
+                    <div class="input-group">
+                        <label for="trxid">Bkash Trxid</label>
+                        {{ form.bkash_trxid }}
+                        {{ form.bkash_trxid.errors }}
+                        {{ form.bkash_trxid.help_text }}
+                    </div>
+                    {{ form.errors }}
+
+                    <button type="submit">Confirm Join</button>
+                </form>
+            {% else %}
+                <form class="join-form" method="post" action="{% url 'join_tournament' tournament.id %}">
+                    {% csrf_token %}
+                    <div class="info">
+
+                        <h4>{{ tournament.name }}</h4>
+                        <p>Tournament Host By: <span>{{ tournament.creator.username }}</span></p>
+                        <p>Payment Amount: <span>{{ tournament.fee }}</span></p>
+                        <p>Bkash Payment Number: <span>017xxxxxxxx</span></p>
+                        <p>Leader Name: <span>{{ request.user.get_full_name }}</span></p>
+                        {% if leader_already_registered %}
+                            <p id="error-message">leader is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="1st">Team Name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                        {{ form.name.help_text }}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="1st">1st Teammate ID</label>
+                        {{ form.player1 }}
+                        {{ form.player1.errors }}
+                        {{ form.player1.help_text }}
+                        {% if player1_already_registered %}
+                            <p id="error-message">Player is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                        {% if p1_same_id %}
+                            <p id="error-message">Player can't have same id as leader or other teammates.</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+                    <div class="input-group">
+                        <label for="2nd">2st Teammate ID</label>
+                        {{ form.player2 }}
+                        {{ form.player2.errors }}
+                        {{ form.player2.help_text }}
+                        {% if player2_already_registered %}
+                            <p id="error-message">Player is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                        {% if p2_same_id %}
+                            <p id="error-message">Player can't have same id as leader or other teammates.</p>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+                    <div class="input-group">
+                        <label for="3rd">3rd Teammate ID</label>
+                        {{ form.player3 }}
+                        {{ form.player3.errors }}
+                        {{ form.player3.help_text }}
+                        {% if player3_already_registered %}
+                            <p id="error-message">Player is already registered.</p>
+                        {% else %}
+
+                        {% endif %}
+                        {% if p3_same_id %}
+                            <p id="error-message">Player can't have same id as leader or other teammates.</p>
+                        {% else %}
+
+                        {% endif %}
+
+                    </div>
+                    <div class="input-group">
+                        <label for="bkash-number">Bkash Payment Number</label>
+
+                        {{ form.bkash_payment_number }}
+                        {{ form.bkash_payment_number.errors }}
+                        {{ form.bkash_payment_number.help_text }}
+                    </div>
+                    <div class="input-group">
+                        <label for="trxid">Bkash Trxid</label>
+                        {{ form.bkash_trxid }}
+                        {{ form.bkash_trxid.errors }}
+                        {{ form.bkash_trxid.help_text }}
+                    </div>
+                    {{ form.errors }}
+
+                    <button type="submit">Confirm Join</button>
+                </form>
+            {% endif %}
+
+        </div>
+    </section>
+{% endblock %}

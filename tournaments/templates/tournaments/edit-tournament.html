@@ -1,0 +1,115 @@
+{% extends 'users_app/nav_bar.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'tournaments/css/edit-tournament.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <title>Gaming Community | {{ tournament.name }}</title>
+{% endblock %}
+
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="section-bg">
+        <h2>Edit Tournament</h2>
+    </section>
+    <section class="form-section">
+        <form class="edit-form" action="{% url 'update-tournament' tournament.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="content-left">
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    {{ form.edit_name }}
+                    {{ form.edit_name.help_text }}
+                    {{ form.edit_name.errors }}
+                </div>
+                <div class="input-group">
+                    <label>Game Type</label>
+                    {{ form.edit_game_type }}
+                    {{ form.edit_game_type.help_text }}
+                    {{ form.edit_game_type.errors }}
+                </div>
+
+                <div class="input-group">
+                    <label>Team Type</label>
+                    {{ form.edit_team_type }}
+                    {{ form.edit_team_type.help_text }}
+                    {{ form.edit_team_type.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="team-qty">Total Team Qty</label>
+                    {{ form.edit_slots }}
+                    {{ form.edit_slots.help_text }}
+                    {{ form.edit_slots.errors }}
+                </div>
+
+                <div class="input-group">
+                    <label for="entry-fee">Entry Fee</label>
+                    {{ form.edit_fee }}
+                    {{ form.edit_fee.help_text }}
+                    {{ form.edit_fee.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="description">Description</label>
+                    {{ form.edit_description }}
+                    {{ form.edit_description.help_text }}
+                    {{ form.edit_description.errors }}
+                </div>
+            </div>
+            <div class="content-right">
+                <div class="input-group">
+                    <label for="start-date">Start Date</label>
+                    {{ form.edit_start_date }}
+                    {{ form.edit_start_date.help_text }}
+                    {{ form.edit_start_date.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="start-date">Start Date</label>
+                    {{ form.edit_start_time }}
+                    {{ form.edit_start_time.help_text }}
+                    {{ form.edit_start_time.errors }}
+                </div>
+
+                <div class="input-group">
+                    <label for="deadline">Registration Deadline</label>
+                    {{ form.edit_registration_deadline }}
+                    {{ form.edit_registration_deadline.help_text }}
+                    {{ form.edit_registration_deadline.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="1st">1st Ranking Prize Money</label>
+                    {{ form.edit_first_prize }}
+                    {{ form.edit_first_prize.help_text }}
+                    {{ form.edit_first_prize.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="2nd">2nd Ranking Prize Money</label>
+                    {{ form.edit_second_prize }}
+                    {{ form.edit_second_prize.help_text }}
+                    {{ form.edit_second_prize.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="3rd">3rd Ranking Prize Money</label>
+                    {{ form.edit_third_prize }}
+                    {{ form.edit_third_prize.help_text }}
+                    {{ form.edit_third_prize.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="image">Tournament Image</label>
+                    {{ form.edit_tournament_image }}
+                    {{ form.edit_tournament_image.help_text }}
+                    {{ form.edit_tournament_image.errors }}
+                </div>
+            </div>
+            <button type="submit">Edit now</button>
+        </form>
+    </section>
+{% endblock %}

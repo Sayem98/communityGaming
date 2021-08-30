@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600:&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="{% static 'users_app/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'users_app/css/header.css' %}" />
+    <link rel="stylesheet" href="{% static 'users_app/css/footer.css' %}" />
+    {% block css %}
+      {% endblock %}
+    {% block title %}
+    {% endblock %}
+  </head>
+  <body>
+    <header class="header">
+      <a href="/index.html"
+        ><img src="{% static 'users_app/images/logo.svg' %}" alt="Logo" class="header__logo"
+      /></a>
+      <ul class="header__list">
+        <li class="header__item">
+          <a href="/">Home</a>
+        </li>
+        <li class="header__item">
+          <a href="{% url 'all-tournament' %}">Tournaments</a>
+        </li>
+
+        <li class="header__item">
+          <a href="{% url 'profile' %}">My Profile</a>
+        </li>
+        {% block nav %}
+          {% endblock %}
+      </ul>
+    </header>
+    {% block content %}
+
+
+    {% endblock %}
+
+
+    <footer class="footer">
+      <p>© 2021 Community Gaming</p>
+      <div class="social-link">
+        <a href="#">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="#">
+          <i class="fab fa-instagram-square"></i>
+        </a>
+        <a href="#">
+          <i class="fab fa-discord"></i>
+        </a>
+      </div>
+    </footer>
+
+    <script src="{% static 'users_app/js/index.js' %}"></script>
+  </body>
+</html>

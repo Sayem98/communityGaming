@@ -1,0 +1,61 @@
+{% load static %}
+<a href="{% url 'single-tournament' team.tournament.id %}">
+                        <div class="tournament__card">
+                            <div class="card__top">
+                                <div class="card__badge">
+                                    <div class="tournament__teams">
+                                        <i class="fas fa-users"></i>
+                                        <span>{{ team.tournament.teams.all.count }}/{{ team.tournament.slots }}</span>
+                                    </div>
+                                    <div class="tournament__type">
+                                        <span>{{ team.tournament.team_type }}</span>
+                                    </div>
+                                </div>
+                                <div class="card__info-badge">
+                                    <div class="tournament__fee">
+                                        Entry:
+                                        <span>৳ {{ team.tournament.fee }}</span>
+                                    </div>
+                                    <div class="tournament__map">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                        <span>Arena</span>
+                                    </div>
+                                </div>
+                                <img
+                                        class="tournament__img"
+                                        src="{{ team.tournament.tournament_image.url }}"
+                                        alt="Card img"
+                                />
+                            </div>
+                            <div class="card__bottom">
+                                <div class="tournament__info">
+                                    <h4 class="tournament__cat">{{ team.tournament.game_type }}</h4>
+                                    <h2 class="tournament__name">
+                                        {{ team.tournament.name }}
+                                    </h2>
+                                    <div class="tournament__host">
+                                        {% if team.tournament.creator.user_info.profile_image %}
+                                            <img src="{{ team.tournament.creator.user_info.profile_image.url }}" alt="Host Img"/>
+                                        {% else %}
+                                            <img src="{% static 'users_app/images/profile-avatar.png' %}" alt="Host Img"/>
+                                        {% endif %}
+
+                                        <div>
+                                            <p>Hosted By</p>
+                                            <h4>{{ team.tournament.creator.username }}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tournament__purchase">
+                                    <div class="purchase__date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <p>{{ team.tournament.last_reg_date }}</p>
+                                    </div>
+                                    <div class="purchase__amount">
+                                        <i class="fas fa-trophy"></i>
+                                        <p>৳ {{ team.tournament.total_prize }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>

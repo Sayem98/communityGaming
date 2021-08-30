@@ -1,0 +1,118 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users_app/css/profile.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <link rel="stylesheet" href="{% static 'users_app/css/profile.css' %}"/>
+{% endblock %}
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="profile">
+        <div class="profile-info">
+
+            {% if request.user.user_info.profile_image %}
+
+                <img src="{{ request.user.user_info.profile_image.url }}" alt="Img"/>
+            {% else %}
+                <img src="{% static 'users_app/images/profile-avatar.png' %}" alt="Img"/>
+            {% endif %}
+            <div class="game-info">
+                <p>Name: <span>{{ request.user.get_full_name }}</span></p>
+                <p>Email: <span>{{ request.user.email }}</span></p>
+                <p>MY GAME ID: <span>{{ request.user.user_info.unique_id }}</span></p>
+            </div>
+            <form class="my-info-form" method="post" action="{% url 'update_profile' %}">
+                {% csrf_token %}
+                <h4>Update My Information</h4>
+                <div class="input-group">
+                    <label for="username">Name</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.help_text }}
+                </div>
+                <div class="input-group">
+                    <label for="username">Email</label>
+                    {{ form.update_email }}
+                    {{ form.update_email.help_text }}
+                </div>
+                <div class="input-group">
+                    <label for="image">Profile Image</label>
+                    {{ form.user_image }}
+                    {{ form.user_image.help_text }}
+                </div>
+                <button type="submit">Update</button>
+            </form>
+            <form class="auth-form" method="post" action="{% url 'change-password' %}">
+                {% csrf_token %}
+                <h4>Change My Password</h4>
+                <div class="input-group">
+                    <label for="password">Current Password</label>
+                    {{ password_change_form.current_password }}
+                </div>
+                <div class="input-group">
+                    <label for="password">New Password</label>
+                    {{ password_change_form.new_password }}
+                </div>
+                <div class="input-group">
+                    <label for="password">Confirm Password</label>
+                    {{ password_change_form.new_password_confirm }}
+                </div>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <button type="submit">Change Password</button>
+            </form>
+        </div>
+        <div class="profile-tournament-card">
+            <div class="my-touranemnt">
+                <h4>My joined Touranemnts</h4>
+                <div class="tournaments">
+                    <div class="card">
+                        {% for team in all_teams_as_leader %}
+                            {% include 'users_app/tournament_card.html' %}
+                        {% endfor %}
+                        {% for team in all_teams_as_p1 %}
+                            {% include 'users_app/tournament_card.html' %}
+                        {% endfor %}
+                        {% for team in all_teams_as_p2 %}
+                            {% include 'users_app/tournament_card.html' %}
+                        {% endfor %}
+                        {% for team in all_teams_as_p3 %}
+                            {% include 'users_app/tournament_card.html' %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            <div class="join-touranemnt">
+                <h4>Tournament Hosted By me</h4>
+                <div class="tournaments">
+                    <div class="card">
+
+                        {% for tournament in tournaments_hosted %}
+                            {% include 'tournaments/tournament_card.html' %}
+                        {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users_app/css/register.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <title>Gaming Community | Register</title>
+{% endblock %}
+
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'login' %}">login</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="register">
+        <div class="register-card">
+            <h4>Register Account</h4>
+            <form class="register-form" action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <label for="username">{{ form.username.label }}</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="email">First Name</label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="email">Last Name</label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="password">{{ form.password1.label }}</label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="password-confirm">{{ form.password2.label }}</label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+
+                </div>
+
+
+                <div class="aggrement">
+                    {{ form.policy }}
+                    I agree to the <a href="/policy.html">Privacy Policy</a>
+                </div>
+
+                <button type="submit">Register</button>
+            </form>
+            <div class="register-text">
+                Already Member? <a href="{% url 'login' %}">Login now ></a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

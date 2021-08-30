@@ -1,0 +1,122 @@
+{% extends 'users_app/nav_bar.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'tournaments/css/create-tournament.css' %}"/>
+{% endblock %}
+
+{% block title %}
+    <title>Gaming Community | New Tournament</title>
+{% endblock %}
+
+{% block nav %}
+    <li class="header__item">
+        <a href="{% url 'logout' %}">Logout</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <section class="section-bg">
+        <h2>Host new Tournament</h2>
+    </section>
+    <section class="form-section">
+        <form class="create-form" action="{% url 'create-tournament' %}" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <div class="content-left">
+                <div class="input-group">
+                    <label for="name">Tournament Name</label>
+                    {{ form.name }}
+                    {{ form.name.help_text }}
+                    {{ form.name.errors }}
+                </div>
+                <div class="input-group">
+                    <label>Game Type</label>
+                    {{ form.game_type }}
+                    {{ form.game_type.help_text }}
+                    {{ form.game_type.errors }}
+                </div>
+
+                <div class="input-group">
+                    <label>Team Type</label>
+                    {{ form.team_type }}
+                    {{ form.team_type.help_text }}
+                    {{ form.team_type.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="team-qty">Total Team Qty</label>
+                    {{ form.slots }}
+                    {{ form.slots.help_text }}
+                    {{ form.slots.errors }}
+                </div>
+
+                <div class="input-group">
+                    <label for="entry-fee">Entry Fee</label>
+                    {{ form.fee }}
+                    {{ form.fee.help_text }}
+                    {{ form.fee.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="start-date">Start Date</label>
+                    {{ form.start_date }}
+                    {{ form.start_date.help_text }}
+                    {{ form.start_date.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="start-date">Start Time</label>
+                    {{ form.start_time }}
+                    {{ form.start_time.help_text }}
+                    {{ form.start_time.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="deadline">Registration Deadline</label>
+                    {{ form.registration_deadline }}
+                    {{ form.registration_deadline.help_text }}
+                    {{ form.registration_deadline.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="3rd">TOURNAMENT IMAGE</label>
+                    {{ form.tournament_image }}
+
+                    {{ form.tournament_image.errors }}
+                </div>
+
+
+            </div>
+            <div class="content-right">
+
+
+
+                <div class="input-group">
+                    <label for="1st">1st Ranking Prize Money</label>
+                    {{ form.first_prize }}
+                    {{ form.first_prize.help_text }}
+                    {{ form.first_prize.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="2nd">2nd Ranking Prize Money</label>
+                    {{ form.second_prize }}
+                    {{ form.second_prize.help_text }}
+                    {{ form.second_prize.errors }}
+                </div>
+                <div class="input-group">
+                    <label for="3rd">3rd Ranking Prize Money</label>
+                    {{ form.third_prize }}
+                    {{ form.third_prize.help_text }}
+                    {{ form.third_prize.errors }}
+                </div>
+
+                <div class="input-group">
+                    <label for="description">Description</label>
+                    {{ form.description }}
+
+                    {{ form.description.errors }}
+                </div>
+                <button type="submit">Create new</button>
+            </div>
+
+        </form>
+    </section>
+
+{% endblock %}
