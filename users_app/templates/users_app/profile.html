@@ -31,7 +31,7 @@
                 <p>Email: <span>{{ request.user.email }}</span></p>
                 <p>MY GAME ID: <span>{{ request.user.user_info.unique_id }}</span></p>
             </div>
-            <form class="my-info-form" method="post" action="{% url 'update_profile' %}">
+            <form class="my-info-form" method="post" action="{% url 'update_profile' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4>Update My Information</h4>
                 <div class="input-group">
@@ -47,7 +47,7 @@
                 <div class="input-group">
                     <label for="image">Profile Image</label>
                     {{ form.user_image }}
-                    {{ form.user_image.help_text }}
+
                 </div>
                 <button type="submit">Update</button>
             </form>
@@ -102,6 +102,7 @@
             </div>
             <div class="join-touranemnt">
                 <h4>Tournament Hosted By me</h4>
+
                 <div class="tournaments">
                     <div class="card">
 

@@ -7,13 +7,14 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from users_app.models import UserInfoModel
+from datetime import date
 
 
 # Create your views here.
 
 class AllTournamentView(View):
     def get(self, request):
-        tournaments = TournamentModel.objects.all()
+        tournaments = TournamentModel.objects.all().order_by('-last_reg_date')
         form = TournamentFilterForm()
         return render(request, 'tournaments/tournaments.html', {
             'tournaments': tournaments,
@@ -22,7 +23,7 @@ class AllTournamentView(View):
 
     def post(self, request):
         form = TournamentFilterForm(request.POST)
-        tournaments = TournamentModel.objects.all()
+        tournaments = TournamentModel.objects.all().order_by('-last_reg_date')
         if form.is_valid():
 
             if form.cleaned_data.get('money_type') != 'All':
@@ -45,13 +46,12 @@ class AllTournamentView(View):
         })
 
 
-# TODO  Wining team system needed.
-# TODO Match id and password adding system.
 class SingleTournamentView(View):
 
     def get(self, request, id):
 
         already_registered = False
+        reg_time_passed = False
         room_form = RoomForm()
         winner_form = WinnerForm()
         tournament = TournamentModel.objects.get(id=id)
@@ -69,6 +69,8 @@ class SingleTournamentView(View):
                 already_registered = True
             if team.player3.id == request.user.id:
                 already_registered = True
+        if tournament.last_reg_date < date.today():
+            reg_time_passed = True
         return render(request, 'tournaments/single-tournament.html', {
             'tournament': tournament,
             'prize': tournament.first_prize + tournament.second_prize + tournament.third_prize,
@@ -78,13 +80,14 @@ class SingleTournamentView(View):
             'is_creator': is_creator,
             'already_registered': already_registered,
             'room_form': room_form,
-            'winner_form': winner_form
+            'winner_form': winner_form,
+            'reg_time_passed': reg_time_passed
 
         })
 
     # Adding winner teams.
     def post(self, request, id):
-
+        reg_time_passed = False
         winner_form = WinnerForm(request.POST, request.FILES)
         tournament = TournamentModel.objects.get(id=id)
         if winner_form.is_valid():
@@ -122,7 +125,8 @@ class SingleTournamentView(View):
             'is_creator': is_creator,
             'already_registered': already_registered,
             'room_form': room_form,
-            'winner_form': winner_form
+            'winner_form': winner_form,
+            'reg_time_passed': reg_time_passed
 
         })
 

@@ -98,7 +98,6 @@ class UserProfileView(View):
             'all_teams_as_p2': all_teams_as_p2,
             'all_teams_as_p3': all_teams_as_p3,
 
-
             'password_change_form': password_change_form
         })
 
@@ -114,7 +113,8 @@ class UpdateProfileView(View):
             current_user = request.user
             # print(current_user)
             current_user.user_info.profile_image = form.cleaned_data.get('user_image')
-            current_user.save()
+            current_user.user_info.save()
+            print(form.cleaned_data.get('user_image'))
 
             if form.cleaned_data['update_email'] != '':
                 current_user.email = form.cleaned_data['update_email']

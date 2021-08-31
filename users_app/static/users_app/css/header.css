@@ -11,7 +11,6 @@
 
 .header .header__logo {
   max-height: 4rem;
-
 }
 
 .header .header__list {
@@ -26,6 +25,7 @@
   padding: 0.8rem 1.5rem;
   transition: 0.3s ease-in;
 }
+
 .header .header__item .profile-img {
   width: 35px;
   height: 35px;
@@ -45,6 +45,37 @@
 .header .header__item:hover a {
   color: #1fd2f1;
   font-weight: 500;
+}
+
+.header .profile-card {
+  position: absolute;
+  top: 8rem;
+  right: 2.5rem;
+  background-color: #0e1018;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  z-index: 999;
+  display: none;
+}
+
+.header .profile-card .card-item {
+  margin: 1rem 0;
+  color: var(--color-primary-text);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.header .profile-card .card-item:hover {
+  color: #1fd2f1;
+}
+
+.header .profile-card .card-item a {
+  color: var(--color-primary-text);
+  transition: 0.3s ease;
+}
+
+.header .profile-card .card-item:hover a {
+  color: #1fd2f1;
 }
 
 @media only screen and (max-width: 450px) {

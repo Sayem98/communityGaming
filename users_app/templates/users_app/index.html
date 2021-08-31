@@ -1,198 +1,120 @@
+{% extends 'users_app/nav_bar.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <!--Google Fonts-->
-    <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap"
-            rel="stylesheet"
-    />
-
-    <!--Font Awesome-->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
-
-    <!--Custom css-->
-    <link rel="stylesheet" href="{% static 'users_app/css/style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'users_app/css/header.css' %}"/>
-    <link rel="stylesheet" href="{% static 'users_app/css/footer.css' %}"/>
-    <link rel="stylesheet" href="{% static 'users_app/css/home.css' %}"/>
+{% block title %}
     <title>Gaming Community | Home</title>
-</head>
-<body>
-<header class="header">
-    <a href="{% url 'home' %}"
-    ><img src="{% static 'users_app/images/logo.svg' %}" alt="Logo" class="header__logo"
-    /></a>
+{% endblock %}
 
-    <ul class="header__list">
-        <li class="header__item">
-            <a href="{% url 'home' %}">Home</a>
-        </li>
-        <li class="header__item">
-            <a href="{% url 'all-tournament' %}">Tournaments</a>
-        </li>
-        <li class="header__item">
-            <a href="/about.html">About us</a>
-        </li>
-        <!-- <li class="header__item">
-          <a href="/login.html">Login</a>
-        </li> -->
-        <li class="header__item">
-            {% if request.user.user_info.profile_image %}
-                <img
-                        src="{{ request.user.user_info.profile_image.url }}"
-                        alt="Profile"
-                        class="profile-img"
-                />
-            {% else %}
-                <img
-                        src="{% static 'users_app/images/profile-avatar.png' %}"
-                        alt="Profile"
-                        class="profile-img"
-                />
-            {% endif %}
-        </li>
-        <li class="header__item">
-            <div class="profile-card">
-                <ul class="card-list">
-                    <li class="card-item"><a href="{% url 'profile' %}">My Profile</a></li>
-                    <li class="card-item"><a href="{% url 'logout' %}">Logout</a></li>
-                </ul>
+{% block css %}
+    <link rel="stylesheet" href="{% static 'users_app/css/home.css' %}"/>
+    <link rel="stylesheet" href="{% static 'users_app/css/style.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <h1 class="hero__title">Play, <span>Win</span> and <span>Earn!</span></h1>
+        <p class="hero__subtitle">
+            Play competitive tournaments and win amazing cash prizes instantly! Join
+            any of the multiple tournaments happening every hour, every day.
+        </p>
+        <a href="{% url 'register' %}" class="btn">Join now free</a>
+    </section>
+    <section class="tournament">
+        <div class="tournament__heading">
+            <h2 class="tournament__title">Upcoming Tournaments</h2>
+            <a href="{% url 'all-tournament' %}" class="tournament__btn"
+            >Brows All <i class="fas fa-chevron-right"></i
+            ></a>
+        </div>
+        <div class="card">
+            {% for tournament in latest_tournaments %}
+                {% include 'tournaments/tournament_card.html' %}
+            {% endfor %}
+
+        </div>
+    </section>
+    <section class="create-tournament">
+        <h2>Want to Create Your Own Tournament?</h2>
+        <p>
+            Creating your own tournament takes less than 5 minutes. Create a
+            tournament as small as 4 players and take advantage of the platform's
+            auto pay technology. <br/><br/>
+            For larger tournaments you can also earn an Organizer Fee. Organizers do
+            a lot of work for their communities and should be incentivized to run
+            great events.
+        </p>
+        <div class="btn__container">
+            <a href="{% url 'register' %}" class="btn register__btn">Create an Account</a>
+            <a href="{% url 'create-tournament' %}" class="btn-outline create__btn"
+            >Host a Tournament</a
+            >
+        </div>
+    </section>
+    <section class="tournament">
+        <div class="tournament__heading">
+            <h2 class="tournament__title">Past Tournaments</h2>
+            <a href="{% url 'all-tournament' %}" class="tournament__btn"
+            >Brows All <i class="fas fa-chevron-right"></i
+            ></a>
+        </div>
+        <div class="card">
+            {% for tournament in latest_tournaments_ended %}
+                {% include 'tournaments/tournament_card.html' %}
+            {% endfor %}
+        </div>
+    </section>
+    <section class="discord">
+        <div class="dicord__join">
+            <h4>Join our Discord Server!</h4>
+            <a href="https://discord.com/invite/ddsde" class="btn">
+                <i class="fab fa-discord"></i>
+                Join Now
+            </a>
+        </div>
+        <p>Meet new teammates and stay up to date with our tournaments.</p>
+        <img
+                class="discord__img"
+                src="{% static 'users_app/images/discord.jpg' %}"
+                alt="Discord Photo"
+        />
+    </section>
+    <section class="community">
+        <h2>What is Community Gaming?</h2>
+        <p>
+            Community Gaming’s platform creates a seamless experience for tournament
+            organizers to host grassroots tournaments and for gamers to compete and
+            instantly get paid when they win. The platform facilitates automatic
+            payments that are fast, transparent, and require no blockchain knowledge
+            to use!
+        </p>
+        <div class="community__card-container">
+            <div class="community__card">
+                <i class="fas fa-wallet"></i>
+                <h2>Easy Onboarding</h2>
+                <p>
+                    Account creation is fast and simple! Just confirm your email address
+                    to get your account wallet set up (or connect your own).
+                </p>
             </div>
-        </li>
-    </ul>
-
-</header>
-<section class="hero">
-    <h1 class="hero__title">Play, <span>Win</span> and <span>Earn!</span></h1>
-    <p class="hero__subtitle">
-        Play competitive tournaments and win amazing cash prizes instantly! Join
-        any of the multiple tournaments happening every hour, every day.
-    </p>
-    <a href="{% url 'register' %}" class="btn">Join now free</a>
-</section>
-<section class="tournament">
-    <div class="tournament__heading">
-        <h2 class="tournament__title">Upcoming Tournaments</h2>
-        <a href="{% url 'all-tournament' %}" class="tournament__btn"
-        >Brows All <i class="fas fa-chevron-right"></i
-        ></a>
-    </div>
-    <div class="card">
-        {% for tournament in latest_tournaments %}
-           {% include 'tournaments/tournament_card.html' %}
-        {% endfor %}
-
-    </div>
-</section>
-<section class="create-tournament">
-    <h2>Want to Create Your Own Tournament?</h2>
-    <p>
-        Creating your own tournament takes less than 5 minutes. Create a
-        tournament as small as 4 players and take advantage of the platform's
-        auto pay technology. <br/><br/>
-        For larger tournaments you can also earn an Organizer Fee. Organizers do
-        a lot of work for their communities and should be incentivized to run
-        great events.
-    </p>
-    <div class="btn__container">
-        <a href="{% url 'register' %}" class="btn register__btn">Create an Account</a>
-        <a href="{% url 'create-tournament' %}" class="btn-outline create__btn"
-        >Host a Tournament</a
-        >
-    </div>
-</section>
-<section class="tournament">
-    <div class="tournament__heading">
-        <h2 class="tournament__title">Past Tournaments</h2>
-        <a href="{% url 'all-tournament' %}" class="tournament__btn"
-        >Brows All <i class="fas fa-chevron-right"></i
-        ></a>
-    </div>
-    <div class="card">
-        {% for tournament in latest_tournaments_ended %}
-           {% include 'tournaments/tournament_card.html' %}
-        {% endfor %}
-    </div>
-</section>
-<section class="discord">
-    <div class="dicord__join">
-        <h4>Join our Discord Server!</h4>
-        <a href="https://discord.com/invite/ddsde" class="btn">
-            <i class="fab fa-discord"></i>
-            Join Now
-        </a>
-    </div>
-    <p>Meet new teammates and stay up to date with our tournaments.</p>
-    <img
-            class="discord__img"
-            src="/static/images/discord.jpg"
-            alt="Discord Photo"
-    />
-</section>
-<section class="community">
-    <h2>What is Community Gaming?</h2>
-    <p>
-        Community Gaming’s platform creates a seamless experience for tournament
-        organizers to host grassroots tournaments and for gamers to compete and
-        instantly get paid when they win. The platform facilitates automatic
-        payments that are fast, transparent, and require no blockchain knowledge
-        to use!
-    </p>
-    <div class="community__card-container">
-        <div class="community__card">
-            <i class="fas fa-wallet"></i>
-            <h2>Easy Onboarding</h2>
-            <p>
-                Account creation is fast and simple! Just confirm your email address
-                to get your account wallet set up (or connect your own).
-            </p>
+            <div class="community__card">
+                <i class="far fa-chart-bar"></i>
+                <h2>Match Reporting</h2>
+                <p>
+                    Use the self reporting bracket feature to keep your tournament
+                    moving! For API-supported games, match results will automatically be
+                    entered into the bracket.
+                </p>
+            </div>
+            <div class="community__card">
+                <i class="fas fa-rocket"></i>
+                <h2>Instant Payments</h2>
+                <p>
+                    Take advantage of our automated payment technology to have your
+                    players paid out instantly and transparently. No more wait times or
+                    high fees!
+                </p>
+            </div>
         </div>
-        <div class="community__card">
-            <i class="far fa-chart-bar"></i>
-            <h2>Match Reporting</h2>
-            <p>
-                Use the self reporting bracket feature to keep your tournament
-                moving! For API-supported games, match results will automatically be
-                entered into the bracket.
-            </p>
-        </div>
-        <div class="community__card">
-            <i class="fas fa-rocket"></i>
-            <h2>Instant Payments</h2>
-            <p>
-                Take advantage of our automated payment technology to have your
-                players paid out instantly and transparently. No more wait times or
-                high fees!
-            </p>
-        </div>
-    </div>
-</section>
-<footer class="footer">
-    <p>© 2021 Community Gaming</p>
-    <div class="social-link">
-        <a href="#">
-            <i class="fab fa-facebook"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-instagram-square"></i>
-        </a>
-        <a href="#">
-            <i class="fab fa-discord"></i>
-        </a>
-    </div>
-</footer>
+    </section>
 
-<script src="{% static 'tournaments/js/index.js' %}"></script>
-</body>
-</html>
+{% endblock %}

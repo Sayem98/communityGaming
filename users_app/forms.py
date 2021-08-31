@@ -21,9 +21,13 @@ class UserLoginForm(forms.Form):
 
 
 class UpdateProfileForm(forms.Form):
-    full_name = forms.CharField(required=False, max_length=150, help_text='Enter your full name')
-    update_email = forms.EmailField(help_text='Enter your email', required=False)
-    user_image = forms.ImageField(required=False, help_text='Insert your profile image')
+    full_name = forms.CharField(required=False, max_length=150, widget=forms.TextInput(attrs={
+        'placeholder': 'Enter new name'
+    }))
+    update_email = forms.EmailField(required=False, widget=forms.TextInput(attrs={
+        'placeholder': 'Update email'
+    }))
+    user_image = forms.ImageField(required=False)
 
 
 class PasswordChangeForm(forms.Form):
