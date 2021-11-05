@@ -84,6 +84,7 @@
                 <h4>My joined Touranemnts</h4>
                 <div class="tournaments">
                     <div class="card">
+
                         {% for team in all_teams_as_leader %}
                             {% include 'users_app/tournament_card.html' %}
                         {% endfor %}
