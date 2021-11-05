@@ -259,14 +259,17 @@ class JoinTournamentView(View):
         p2_same_id = False
         p3_same_id = False
         tournament = TournamentModel.objects.get(id=id)
+        # print(tournament)
         form = TeamsForm(request.POST)
 
         if form.is_valid():
             if tournament.team_type == '1v1':
-                p1 = User.objects.get(username='Dummy')
-                p2 = User.objects.get(username='Dummy')
-                p3 = User.objects.get(username='Dummy')
+                p1 = User.objects.get(id=request.user.id)
+                p2 = User.objects.get(id=request.user.id)
+                p3 = User.objects.get(id=request.user.id)
+                print('ok1')
                 all_teams = tournament.teams.all()
+                print('ok2')
                 for team in all_teams:
 
                     # Checking for leader. if try to play in another team as player. (ok)
@@ -298,8 +301,8 @@ class JoinTournamentView(View):
                 p1_id = int(form.cleaned_data.get('player1'))
                 p1_user_info = UserInfoModel.objects.get(unique_id=p1_id)
                 p1 = p1_user_info.user
-                p2 = User.objects.get(username='Dummy')
-                p3 = User.objects.get(username='Dummy')
+                p2 = User.objects.get(id=request.user.id)
+                p3 = User.objects.get(id=request.user.id)
                 all_teams = tournament.teams.all()
                 for team in all_teams:
 
